@@ -49,6 +49,15 @@ export const api = {
     return res.json()
   },
 
+  updateBudget: async (tripId, budget) => {
+    const res = await fetch(`${API_BASE}/trips/${tripId}/budget`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ budget }),
+    })
+    return res.json()
+  },
+
   joinTrip: async (inviteCode, userId) => {
     const res = await fetch(`${API_BASE}/trips/join`, {
       method: 'POST',
@@ -85,6 +94,15 @@ export const api = {
     return res.json()
   },
 
+  updateMemberRole: async (tripId, userId, role) => {
+    const res = await fetch(`${API_BASE}/trips/${tripId}/members/${userId}/role`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role }),
+    })
+    return res.json()
+  },
+
   // Itinerary
   getItinerary: async (tripId) => {
     const res = await fetch(`${API_BASE}/trips/${tripId}/itinerary`)
@@ -94,6 +112,15 @@ export const api = {
   addItineraryItem: async (tripId, item) => {
     const res = await fetch(`${API_BASE}/trips/${tripId}/itinerary`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(item),
+    })
+    return res.json()
+  },
+
+  updateItineraryItem: async (tripId, itemId, item) => {
+    const res = await fetch(`${API_BASE}/trips/${tripId}/itinerary/${itemId}`, {
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     })
@@ -139,6 +166,52 @@ export const api = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(settlement),
+    })
+    return res.json()
+  },
+
+  // Chat & Discussion Wall
+  getMessages: async (tripId) => {
+    const res = await fetch(`${API_BASE}/trips/${tripId}/messages`)
+    return res.json()
+  },
+
+  sendMessage: async (tripId, userId, message, tag) => {
+    const res = await fetch(`${API_BASE}/trips/${tripId}/messages`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, message, tag }),
+    })
+    return res.json()
+  },
+
+  // Maps, Places & Routes
+  getLocations: async (tripId) => {
+    const res = await fetch(`${API_BASE}/trips/${tripId}/locations`)
+    return res.json()
+  },
+
+  addLocation: async (tripId, location) => {
+    const res = await fetch(`${API_BASE}/trips/${tripId}/locations`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(location),
+    })
+    return res.json()
+  },
+
+  toggleLocationVisited: async (tripId, locationId, isVisited) => {
+    const res = await fetch(`${API_BASE}/trips/${tripId}/locations/${locationId}/toggle`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ isVisited }),
+    })
+    return res.json()
+  },
+
+  deleteLocation: async (tripId, locationId) => {
+    const res = await fetch(`${API_BASE}/trips/${tripId}/locations/${locationId}`, {
+      method: 'DELETE',
     })
     return res.json()
   },

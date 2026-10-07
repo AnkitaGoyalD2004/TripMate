@@ -10,15 +10,13 @@ const isLocalhost =
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  // Only use SSL for remote cloud databases (Neon, Supabase, etc.)
   ssl: isLocalhost ? false : { rejectUnauthorized: false },
 })
 
-// Auto-create database tables if they do not exist
+// Auto-create database tables and columns
 const initDB = async () => {
   if (!process.env.DATABASE_URL) {
     console.log('⚠️ DATABASE_URL is not set in server/.env yet.')
-    console.log('👉 Please paste your Neon/Cloud Postgres URL into server/.env')
     return
   }
 
@@ -37,9 +35,13 @@ const initDB = async () => {
         title VARCHAR(255) NOT NULL,
         dates VARCHAR(255),
         invite_code VARCHAR(10) UNIQUE NOT NULL,
+        budget NUMERIC(10, 2) DEFAULT 0,
         created_by INT REFERENCES users(id) ON DELETE CASCADE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
+
+      -- Ensure budget column exists for existing trips
+      ALTER TABLE trips ADD COLUMN IF NOT EXISTS budget NUMERIC(10, 2) DEFAULT 0;
 
       CREATE TABLE IF NOT EXISTS trip_members (
         id SERIAL PRIMARY KEY,
@@ -60,15 +62,26 @@ const initDB = async () => {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 
+      -- Additional columns for rich itinerary activities
+      ALTER TABLE itinerary_items ADD COLUMN IF NOT EXISTS location VARCHAR(255);
+      ALTER TABLE itinerary_items ADD COLUMN IF NOT EXISTS duration VARCHAR(100);
+      ALTER TABLE itinerary_items ADD COLUMN IF NOT EXISTS price NUMERIC(10, 2) DEFAULT 0;
+      ALTER TABLE itinerary_items ADD COLUMN IF NOT EXISTS icon VARCHAR(50) DEFAULT '🎯';
+      ALTER TABLE itinerary_items ADD COLUMN IF NOT EXISTS participants TEXT DEFAULT 'All friends';
+
       CREATE TABLE IF NOT EXISTS expenses (
         id SERIAL PRIMARY KEY,
         trip_id INT REFERENCES trips(id) ON DELETE CASCADE,
         title VARCHAR(255) NOT NULL,
         amount NUMERIC(10, 2) NOT NULL,
+        category VARCHAR(50) DEFAULT 'Food',
         paid_by_id INT REFERENCES users(id) ON DELETE CASCADE,
         receipt_image TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
+
+      -- Ensure category column exists for existing expenses
+      ALTER TABLE expenses ADD COLUMN IF NOT EXISTS category VARCHAR(50) DEFAULT 'Food';
 
       CREATE TABLE IF NOT EXISTS expense_splits (
         id SERIAL PRIMARY KEY,
@@ -82,6 +95,26 @@ const initDB = async () => {
         from_user_id INT REFERENCES users(id) ON DELETE CASCADE,
         to_user_id INT REFERENCES users(id) ON DELETE CASCADE,
         amount NUMERIC(10, 2) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS trip_messages (
+        id SERIAL PRIMARY KEY,
+        trip_id INT REFERENCES trips(id) ON DELETE CASCADE,
+        user_id INT REFERENCES users(id) ON DELETE CASCADE,
+        message TEXT NOT NULL,
+        tag VARCHAR(50) DEFAULT 'General',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS trip_locations (
+        id SERIAL PRIMARY KEY,
+        trip_id INT REFERENCES trips(id) ON DELETE CASCADE,
+        name VARCHAR(255) NOT NULL,
+        category VARCHAR(50) DEFAULT 'Sightseeing',
+        address TEXT,
+        notes TEXT,
+        is_visited BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `)

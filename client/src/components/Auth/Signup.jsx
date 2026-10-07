@@ -30,9 +30,9 @@ export default function Signup({ onSignup, onSwitchToLogin }) {
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <div className="bg-white max-w-md w-full p-8 rounded-2xl shadow-sm border border-slate-200">
         <div className="text-center mb-6">
-          <span className="text-4xl">🌴</span>
-          <h1 className="text-2xl font-bold text-slate-800 mt-2">Create Account</h1>
-          <p className="text-sm text-slate-500">Join TripMate to plan trips and split bills</p>
+          <img src="/logo.svg?v=3" alt="TripMate" className="w-14 h-14 mx-auto rounded-2xl shadow-sm mb-3" />
+          <h1 className="text-2xl font-bold text-slate-800">Create Account</h1>
+          <p className="text-sm text-slate-500 mt-1">Join TripMate to plan trips and split bills</p>
         </div>
 
         {error && (

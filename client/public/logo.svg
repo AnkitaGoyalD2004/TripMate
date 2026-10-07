@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Background Squircle Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="45%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+
+    <!-- Warm Path Gradient (Left Friend) -->
+    <linearGradient id="pathWarm" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="50%" stop-color="#F43F5E" />
+      <stop offset="100%" stop-color="#EC4899" />
+    </linearGradient>
+
+    <!-- Cool Path Gradient (Right Friend) -->
+    <linearGradient id="pathCool" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#06B6D4" />
+      <stop offset="50%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#818CF8" />
+    </linearGradient>
+
+    <!-- Compass Gold Gradient -->
+    <linearGradient id="compassGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEF08A" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+
+    <!-- Drop Shadows for depth -->
+    <filter id="tileShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#1E1B4B" flood-opacity="0.3" />
+    </filter>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Squircle Base -->
+  <rect width="128" height="128" rx="30" fill="url(#bgGrad)" filter="url(#tileShadow)" />
+
+  <!-- Subtle Inner Glass Border -->
+  <rect x="1.5" y="1.5" width="125" height="125" rx="28.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.5" />
+
+  <!-- Background Navigational Coordinate Grid / Orbit Rings (Subtle) -->
+  <circle cx="64" cy="52" r="38" fill="none" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="1.5" stroke-dasharray="3,3" />
+  <circle cx="64" cy="52" r="24" fill="none" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="1.5" />
+
+  <!-- ========================================== -->
+  <!-- CONNECTED TRAVEL ROUTES (TRIP + MATE)      -->
+  <!-- ========================================== -->
+
+  <!-- Left Path (Friend 1 Journey) sweeping up from bottom-left into the pin crown -->
+  <path
+    d="M 26 98 C 26 74, 40 60, 52 50 C 58 45, 64 36, 64 26"
+    fill="none"
+    stroke="url(#pathWarm)"
+    stroke-width="5"
+    stroke-linecap="round"
+  />
+
+  <!-- Right Path (Friend 2 Journey) sweeping up from bottom-right into the pin crown -->
+  <path
+    d="M 102 98 C 102 74, 88 60, 76 50 C 70 45, 64 36, 64 26"
+    fill="none"
+    stroke="url(#pathCool)"
+    stroke-width="5"
+    stroke-linecap="round"
+  />
+
+  <!-- The Unified Location Pin Body (Meeting Point & Destination) -->
+  <!-- Outer Pin Boundary -->
+  <path
+    d="M 64 88 C 50 72, 38 60, 38 48 C 38 33.6, 49.6 22, 64 22 C 78.4 22, 90 33.6, 90 48 C 90 60, 78 72, 64 88 Z"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    filter="url(#glow)"
+  />
+
+  <!-- Traveler Departure / Meet Nodes (Bottom Left & Right) -->
+  <circle cx="26" cy="98" r="6" fill="#F59E0B" stroke="#FFFFFF" stroke-width="2.5" />
+  <circle cx="102" cy="98" r="6" fill="#06B6D4" stroke="#FFFFFF" stroke-width="2.5" />
+
+  <!-- Pin Converged Apex / Destination Marker -->
+  <circle cx="64" cy="88" r="4.5" fill="#FFFFFF" />
+
+  <!-- ========================================== -->
+  <!-- NAUTICAL COMPASS STAR (SQUAD'S GUIDANCE)   -->
+  <!-- Centered inside the Pin Head at (64, 48)   -->
+  <!-- ========================================== -->
+  <g transform="translate(64, 48)" filter="url(#glow)">
+    <!-- 4 Primary Faceted Compass Points -->
+    <!-- North Point (White & Silver) -->
+    <polygon points="0,0 0,-18 4,-4" fill="#FFFFFF" />
+    <polygon points="0,0 0,-18 -4,-4" fill="#E0E7FF" />
+
+    <!-- South Point -->
+    <polygon points="0,0 0,18 -4,4" fill="#FFFFFF" />
+    <polygon points="0,0 0,18 4,4" fill="#E0E7FF" />
+
+    <!-- East Point -->
+    <polygon points="0,0 18,0 4,4" fill="#FFFFFF" />
+    <polygon points="0,0 18,0 4,-4" fill="#E0E7FF" />
+
+    <!-- West Point -->
+    <polygon points="0,0 -18,0 -4,-4" fill="#FFFFFF" />
+    <polygon points="0,0 -18,0 -4,4" fill="#E0E7FF" />
+
+    <!-- 4 Diagonal Secondary Needle Accents (Warm Gold) -->
+    <polygon points="0,0 7,-7 2,-2" fill="url(#compassGold)" opacity="0.9" />
+    <polygon points="0,0 7,7 2,2" fill="url(#compassGold)" opacity="0.9" />
+    <polygon points="0,0 -7,7 -2,2" fill="url(#compassGold)" opacity="0.9" />
+    <polygon points="0,0 -7,-7 -2,-2" fill="url(#compassGold)" opacity="0.9" />
+
+    <!-- Center Compass Jewel Pin -->
+    <circle cx="0" cy="0" r="3.5" fill="#4F46E5" stroke="#FFFFFF" stroke-width="2" />
+  </g>
+</svg>

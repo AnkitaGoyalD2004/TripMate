@@ -11,6 +11,7 @@ export default function Expenses({ tripId, members }) {
   const [showAddModal, setShowAddModal] = useState(false)
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState('')
+  const [category, setCategory] = useState('Food')
   const [paidById, setPaidById] = useState(members[0]?.id || '')
   const [splitWithIds, setSplitWithIds] = useState(members.map((m) => m.id))
   const [receiptImage, setReceiptImage] = useState(null)
@@ -76,6 +77,7 @@ export default function Expenses({ tripId, members }) {
     const newExpense = {
       title: title.trim(),
       amount: parseFloat(amount),
+      category,
       paidById,
       splitWithIds,
       receiptImage,
@@ -268,6 +270,14 @@ export default function Expenses({ tripId, members }) {
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="font-semibold text-slate-800">{exp.title}</span>
+                    <span className="text-xs px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md font-medium border border-slate-200">
+                      {exp.category === 'Stay' && '🏨 Stay'}
+                      {exp.category === 'Food' && '🍽️ Food'}
+                      {exp.category === 'Travel' && '🚕 Travel'}
+                      {exp.category === 'Activity' && '🎯 Activity'}
+                      {exp.category === 'Shopping' && '🛍️ Shopping'}
+                      {!['Stay', 'Food', 'Travel', 'Activity', 'Shopping'].includes(exp.category) && (exp.category || '🍽️ Food')}
+                    </span>
                     {exp.receiptImage && (
                       <button
                         onClick={() => setViewReceipt(exp.receiptImage)}
@@ -319,6 +329,21 @@ export default function Expenses({ tripId, members }) {
                   required
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Category</label>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value="Food">🍽️ Food & Dining</option>
+                  <option value="Stay">🏨 Stay & Accommodation</option>
+                  <option value="Travel">🚕 Travel & Transport</option>
+                  <option value="Activity">🎯 Activities & Sightseeing</option>
+                  <option value="Shopping">🛍️ Shopping & Souvenirs</option>
+                </select>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
