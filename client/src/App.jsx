@@ -337,7 +337,7 @@ export default function App() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setActiveTripId(null)}
-              className="p-2 border border-indigo-200 dark:border-indigo-900 bg-white dark:bg-slate-900 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950 text-indigo-600 dark:text-indigo-400 transition"
+              className="p-2 border border-indigo-200 dark:border-indigo-900 bg-white dark:bg-[#0D1426] rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950 text-indigo-600 dark:text-indigo-400 transition"
               title="Back to All Trips"
             >
               <ArrowLeft size={18} />

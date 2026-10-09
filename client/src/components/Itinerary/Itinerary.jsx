@@ -368,7 +368,7 @@ export default function Itinerary({ tripId, trip }) {
 
                       {/* 2. Timeline Marker Node (●──) */}
                       <div className="relative z-10 flex items-center shrink-0 mt-1">
-                        <div className="w-8 h-8 rounded-full bg-white dark:bg-slate-900 border-2 border-indigo-600 flex items-center justify-center text-sm shadow-xs group-hover:scale-110 group-hover:bg-indigo-50 transition">
+                        <div className="w-8 h-8 rounded-full bg-white dark:bg-[#0D1426] border-2 border-indigo-600 flex items-center justify-center text-sm shadow-xs group-hover:scale-110 group-hover:bg-indigo-50 transition">
                           <span>{item.icon || '🎯'}</span>
                         </div>
                         {/* Horizontal connector line */}

@@ -345,7 +345,7 @@ export default function Dashboard({
                       {/* Primary Action Button */}
                       <button
                         onClick={() => onSelectTrip(t.id)}
-                        className="w-full py-2.5 bg-slate-900 group-hover:bg-indigo-600 text-white font-semibold rounded-2xl text-xs transition flex items-center justify-center gap-1.5 shadow-2xs"
+                        className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl text-xs transition flex items-center justify-center gap-1.5 shadow-md shadow-indigo-500/20"
                       >
                         <span>Open Workspace</span>
                         <ArrowRight size={14} />

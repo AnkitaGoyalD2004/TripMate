@@ -50,9 +50,9 @@ body {
   --color-slate-500: #94A3B8;  /* Crisp readable secondary text */
   --color-slate-600: #CBD5E1;  /* Very bright readable primary text */
   --color-slate-700: #E2E8F0;  /* White/off-white heading */
-  --color-slate-800: #F8FAFC;  /* High-contrast pure heading */
-  --color-slate-900: #FFFFFF;  /* Maximum contrast pure white */
-  --color-slate-950: #030712;
+  --color-slate-800: #0E172E;  /* Very deep midnight surface */
+  --color-slate-900: #0A0F1D;  /* Ultra dark midnight surface */
+  --color-slate-950: #050811;  /* Deepest obsidian */
 }
 
 /* 1. Deep Midnight Velvet Canvas (No flat gray) */
