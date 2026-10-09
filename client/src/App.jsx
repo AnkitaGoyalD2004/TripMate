@@ -23,6 +23,7 @@ import Chat from './components/Chat/Chat.jsx'
 import Maps from './components/Maps/Maps.jsx'
 import Members from './components/Members/Members.jsx'
 import Dashboard from './components/Dashboard/Dashboard.jsx'
+import ThemeToggle from './components/ThemeToggle.jsx'
 import { api } from './services/api.js'
 
 export default function App() {
@@ -336,7 +337,7 @@ export default function App() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setActiveTripId(null)}
-              className="p-2 border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-600 transition"
+              className="p-2 border border-indigo-200 dark:border-indigo-900 bg-white dark:bg-slate-900 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950 text-indigo-600 dark:text-indigo-400 transition"
               title="Back to All Trips"
             >
               <ArrowLeft size={18} />
@@ -346,18 +347,19 @@ export default function App() {
               <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
                 {currentTrip.title}
               </h1>
-              <p className="text-xs text-slate-500">{currentTrip.dates}</p>
+              <p className="text-xs text-indigo-600/80 dark:text-indigo-300/80 font-medium">{currentTrip.dates}</p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <button
               onClick={() =>
                 alert(
                   `Invite Code: ${currentTrip.inviteCode}\nTell your friends to click "Join with Code" and enter this!`
                 )
               }
-              className="flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg text-sm font-semibold hover:bg-indigo-100 transition"
+              className="flex items-center gap-2 px-4 py-2 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 rounded-xl text-sm font-semibold hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition"
             >
               <Share2 size={16} />
               Invite Code: {currentTrip.inviteCode}
@@ -368,13 +370,13 @@ export default function App() {
 
       {/* Tabs */}
       <div className="max-w-5xl mx-auto px-6 pt-6">
-        <div className="flex border-b border-slate-200 gap-6 overflow-x-auto">
+        <div className="flex border-b border-indigo-100 dark:border-indigo-950 gap-6 overflow-x-auto">
           <button
             onClick={() => setActiveTab('members')}
-            className={`flex items-center gap-2 pb-3 font-medium transition border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 pb-3 font-semibold transition border-b-2 whitespace-nowrap ${
               activeTab === 'members'
-                ? 'border-indigo-600 text-indigo-600'
-                : 'border-transparent text-slate-500 hover:text-slate-700'
+                ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
+                : 'border-transparent text-slate-600 hover:text-indigo-600 dark:text-slate-300 dark:hover:text-indigo-400'
             }`}
           >
             <Users size={18} />
@@ -383,10 +385,10 @@ export default function App() {
 
           <button
             onClick={() => setActiveTab('itinerary')}
-            className={`flex items-center gap-2 pb-3 font-medium transition border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 pb-3 font-semibold transition border-b-2 whitespace-nowrap ${
               activeTab === 'itinerary'
-                ? 'border-indigo-600 text-indigo-600'
-                : 'border-transparent text-slate-500 hover:text-slate-700'
+                ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
+                : 'border-transparent text-slate-600 hover:text-indigo-600 dark:text-slate-300 dark:hover:text-indigo-400'
             }`}
           >
             <Calendar size={18} />
@@ -395,10 +397,10 @@ export default function App() {
 
           <button
             onClick={() => setActiveTab('maps')}
-            className={`flex items-center gap-2 pb-3 font-medium transition border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 pb-3 font-semibold transition border-b-2 whitespace-nowrap ${
               activeTab === 'maps'
-                ? 'border-indigo-600 text-indigo-600'
-                : 'border-transparent text-slate-500 hover:text-slate-700'
+                ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
+                : 'border-transparent text-slate-600 hover:text-indigo-600 dark:text-slate-300 dark:hover:text-indigo-400'
             }`}
           >
             <MapPin size={18} />
@@ -407,10 +409,10 @@ export default function App() {
 
           <button
             onClick={() => setActiveTab('expenses')}
-            className={`flex items-center gap-2 pb-3 font-medium transition border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 pb-3 font-semibold transition border-b-2 whitespace-nowrap ${
               activeTab === 'expenses'
-                ? 'border-indigo-600 text-indigo-600'
-                : 'border-transparent text-slate-500 hover:text-slate-700'
+                ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
+                : 'border-transparent text-slate-600 hover:text-indigo-600 dark:text-slate-300 dark:hover:text-indigo-400'
             }`}
           >
             <IndianRupee size={18} />
@@ -419,10 +421,10 @@ export default function App() {
 
           <button
             onClick={() => setActiveTab('analytics')}
-            className={`flex items-center gap-2 pb-3 font-medium transition border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 pb-3 font-semibold transition border-b-2 whitespace-nowrap ${
               activeTab === 'analytics'
-                ? 'border-indigo-600 text-indigo-600'
-                : 'border-transparent text-slate-500 hover:text-slate-700'
+                ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
+                : 'border-transparent text-slate-600 hover:text-indigo-600 dark:text-slate-300 dark:hover:text-indigo-400'
             }`}
           >
             <BarChart3 size={18} />
@@ -431,10 +433,10 @@ export default function App() {
 
           <button
             onClick={() => setActiveTab('chat')}
-            className={`flex items-center gap-2 pb-3 font-medium transition border-b-2 whitespace-nowrap ${
+            className={`flex items-center gap-2 pb-3 font-semibold transition border-b-2 whitespace-nowrap ${
               activeTab === 'chat'
-                ? 'border-indigo-600 text-indigo-600'
-                : 'border-transparent text-slate-500 hover:text-slate-700'
+                ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
+                : 'border-transparent text-slate-600 hover:text-indigo-600 dark:text-slate-300 dark:hover:text-indigo-400'
             }`}
           >
             <MessageSquare size={18} />

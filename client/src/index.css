@@ -1,1 +1,179 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   TRIPMATE VIBRANT COLOR ENGINE
+   Completely replaces dull, muddy gray with a vibrant,
+   crisp travel palette (Pearl Sky in Light Mode & Royal
+   Midnight Navy in Dark Mode).
+   ============================================================ */
+
+@theme {
+  /* Light Mode Palette: Warm Breezy Travel Tint (No dirty gray) */
+  --color-slate-50: #F4F7FD;   /* Fresh pearl canvas with breezy blue warmth */
+  --color-slate-100: #EAF0FC;  /* Soft elevated pill / chip backdrop */
+  --color-slate-200: #D8E2F8;  /* Crisp periwinkle-tinted borders */
+  --color-slate-300: #BCCBEB;  /* Defined interactive border */
+  --color-slate-400: #6366F1;  /* High-contrast crisp indigo accent */
+  --color-slate-500: #334155;  /* Deep readable text (never washed out) */
+  --color-slate-600: #1E293B;  /* Rich prominent body text */
+  --color-slate-700: #0F172A;  /* Deep navy headings */
+  --color-slate-800: #0F172A;  /* Bold titles */
+  --color-slate-900: #0A0F1D;  /* Maximum contrast text */
+  --color-slate-950: #070A13;
+}
+
+/* Smooth Transitions */
+*, ::before, ::after {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Light Mode Global Clarity */
+body {
+  background-color: #F4F7FD;
+  color: #0F172A;
+}
+
+/* ============================================================
+   DARK MODE PALETTE (DEEP ROYAL MIDNIGHT & LUMINOUS CONTRAST)
+   ============================================================ */
+
+.dark {
+  --color-slate-50: #070A13;   /* Obsidian Midnight canvas */
+  --color-slate-100: #101935;  /* Deep elevated card / chip */
+  --color-slate-200: #1B274A;  /* Sapphire border */
+  --color-slate-300: #263866;  /* Sapphire border hover */
+  --color-slate-400: #818CF8;  /* Soft luminous indigo accent */
+  --color-slate-500: #94A3B8;  /* Crisp readable secondary text */
+  --color-slate-600: #CBD5E1;  /* Very bright readable primary text */
+  --color-slate-700: #E2E8F0;  /* White/off-white heading */
+  --color-slate-800: #F8FAFC;  /* High-contrast pure heading */
+  --color-slate-900: #FFFFFF;  /* Maximum contrast pure white */
+  --color-slate-950: #030712;
+}
+
+/* 1. Deep Midnight Velvet Canvas (No flat gray) */
+.dark body {
+  background-color: #070A13 !important;
+  color: #FFFFFF !important;
+}
+
+/* 2. Elevated Cards & Containers (Rich Sapphire-Navy Surfaces) */
+.dark .bg-white {
+  background-color: #0D1426 !important; /* Deep royal navy card */
+}
+
+.dark .bg-slate-50 {
+  background-color: #070A13 !important; /* Midnight canvas */
+}
+
+.dark .bg-slate-100 {
+  background-color: #141E38 !important; /* Elevated chip */
+}
+
+.dark .hover\:bg-slate-50:hover {
+  background-color: #141E38 !important;
+}
+
+.dark .hover\:bg-slate-100:hover {
+  background-color: #1C294D !important;
+}
+
+/* 3. High-Contrast Typography (Crisp White & Luminous Silver) */
+.dark .text-slate-900,
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4 {
+  color: #FFFFFF !important; /* Pure white clarity */
+}
+
+.dark .text-slate-800 {
+  color: #F8FAFC !important; /* Ultra-bright silver */
+}
+
+.dark .text-slate-700 {
+  color: #F1F5F9 !important; /* Bright readable text */
+}
+
+.dark .text-slate-600 {
+  color: #E2E8F0 !important; /* Clear light silver */
+}
+
+.dark .text-slate-500 {
+  color: #CBD5E1 !important; /* High-contrast readable subtitles */
+}
+
+.dark .text-slate-400 {
+  color: #A5B4FC !important; /* Soft glowing periwinkle/indigo accent */
+}
+
+/* 4. Defined Sapphire Borders (No dull gray lines) */
+.dark .border-slate-100,
+.dark .border-slate-200 {
+  border-color: #1B274A !important; /* Vibrant deep sapphire border */
+}
+
+.dark .border-slate-300 {
+  border-color: #273763 !important;
+}
+
+/* 5. Inputs, Selects & Textareas (Deep Navy with Crisp White Typing) */
+.dark input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.dark select,
+.dark textarea {
+  background-color: #101932 !important;
+  color: #FFFFFF !important;
+  border-color: #273763 !important;
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  border-color: #6366F1 !important;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3) !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #818CF8 !important; /* Visible light indigo placeholder */
+}
+
+/* 6. Luminous Category Chips & Badges */
+.dark .bg-indigo-50 {
+  background-color: rgba(99, 102, 241, 0.2) !important;
+  color: #C7D2FE !important;
+  border-color: rgba(99, 102, 241, 0.35) !important;
+}
+
+.dark .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.2) !important;
+  color: #A7F3D0 !important;
+}
+
+.dark .bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.2) !important;
+  color: #FDE68A !important;
+}
+
+.dark .bg-red-50 {
+  background-color: rgba(239, 68, 68, 0.2) !important;
+  color: #FECACA !important;
+}
+
+.dark .bg-teal-50 {
+  background-color: rgba(20, 184, 166, 0.2) !important;
+  color: #99F6E4 !important;
+}
+
+/* 7. Shadows with Soft Indigo Glow */
+.dark .shadow-xs,
+.dark .shadow-sm,
+.dark .shadow-md,
+.dark .shadow-lg,
+.dark .shadow-xl {
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.7), 0 0 2px 1px rgba(99, 102, 241, 0.08) !important;
+}

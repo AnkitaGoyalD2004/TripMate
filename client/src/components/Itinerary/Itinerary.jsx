@@ -347,7 +347,7 @@ export default function Itinerary({ tripId, trip }) {
             /* Vertical Timeline Container */
             <div className="relative pl-4 sm:pl-28 py-2">
               {/* Continuous Vertical Timeline Line */}
-              <div className="absolute left-[27px] sm:left-[108px] top-6 bottom-6 w-0.5 bg-slate-200" />
+              <div className="absolute left-[27px] sm:left-[108px] top-6 bottom-6 w-0.5 bg-indigo-200 dark:bg-indigo-900" />
 
               <div className="space-y-6">
                 {currentDayItems.map((item, index) => {
@@ -358,25 +358,25 @@ export default function Itinerary({ tripId, trip }) {
                     <div key={item.id} className="relative flex items-start group">
                       {/* 1. Time Badge (Prominent on Left for Desktop) */}
                       <div className="hidden sm:flex flex-col items-end w-20 shrink-0 pr-4 mt-2">
-                        <span className="font-mono text-xs font-bold text-slate-700">
+                        <span className="font-mono text-xs font-bold text-indigo-700 dark:text-indigo-300">
                           {item.time || '--:--'}
                         </span>
                         {item.duration && (
-                          <span className="text-[10px] text-slate-400">{item.duration}</span>
+                          <span className="text-[10px] text-indigo-500 font-semibold">{item.duration}</span>
                         )}
                       </div>
 
                       {/* 2. Timeline Marker Node (●──) */}
                       <div className="relative z-10 flex items-center shrink-0 mt-1">
-                        <div className="w-8 h-8 rounded-full bg-white border-2 border-indigo-600 flex items-center justify-center text-sm shadow-xs group-hover:scale-110 group-hover:bg-indigo-50 transition">
+                        <div className="w-8 h-8 rounded-full bg-white dark:bg-slate-900 border-2 border-indigo-600 flex items-center justify-center text-sm shadow-xs group-hover:scale-110 group-hover:bg-indigo-50 transition">
                           <span>{item.icon || '🎯'}</span>
                         </div>
                         {/* Horizontal connector line */}
-                        <div className="w-3.5 h-0.5 bg-indigo-200 shrink-0" />
+                        <div className="w-3.5 h-0.5 bg-indigo-200 dark:bg-indigo-900 shrink-0" />
                       </div>
 
                       {/* 3. Attractive Activity Card */}
-                      <div className="flex-1 bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs hover:border-slate-300 transition ml-1 space-y-3">
+                      <div className="flex-1 bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs hover:border-indigo-300 transition ml-1 space-y-3">
                         {/* Card Header: Icon, Title, Actions */}
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1 min-w-0">
@@ -386,7 +386,7 @@ export default function Itinerary({ tripId, trip }) {
                                 {item.time || 'Flexible'}
                               </span>
                               {item.duration && (
-                                <span className="text-[10px] text-slate-400">· {item.duration}</span>
+                                <span className="text-[10px] text-indigo-500 font-semibold">· {item.duration}</span>
                               )}
                             </div>
 
@@ -395,7 +395,7 @@ export default function Itinerary({ tripId, trip }) {
                                 {item.title}
                               </h3>
                               {item.type && (
-                                <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">
+                                <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900/60">
                                   {item.type}
                                 </span>
                               )}
@@ -443,26 +443,26 @@ export default function Itinerary({ tripId, trip }) {
                         {/* Card Metadata Chips (Duration, Price, Participants) */}
                         <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
                           {item.duration && (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/80 text-slate-600 font-medium">
-                              <Clock size={12} className="text-slate-400" />
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50/70 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-900/60 text-indigo-700 dark:text-indigo-300 font-medium">
+                              <Clock size={12} className="text-indigo-500" />
                               {item.duration}
                             </span>
                           )}
 
                           {item.price > 0 ? (
-                            <span className="inline-flex items-center gap-0.5 px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 font-semibold">
+                            <span className="inline-flex items-center gap-0.5 px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-900/60 text-emerald-700 dark:text-emerald-300 font-bold">
                               <span>₹</span>
                               {item.price.toLocaleString('en-IN')}
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/80 text-slate-500 font-medium">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-900/60 text-teal-700 dark:text-teal-300 font-semibold">
                               Free
                             </span>
                           )}
 
                           {item.participants && (
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50/70 border border-indigo-100 text-indigo-700 font-medium">
-                              <Users size={12} className="text-indigo-500" />
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-purple-50 dark:bg-purple-950/60 border border-purple-100 dark:border-purple-900/60 text-purple-700 dark:text-purple-300 font-medium">
+                              <Users size={12} className="text-purple-500" />
                               {item.participants}
                             </span>
                           )}
@@ -470,17 +470,17 @@ export default function Itinerary({ tripId, trip }) {
 
                         {/* Notes Accordion / Details */}
                         {item.notes && (
-                          <div className="pt-2 border-t border-slate-100">
+                          <div className="pt-2 border-t border-indigo-100/60 dark:border-indigo-950">
                             <button
                               onClick={() => toggleNotes(item.id)}
-                              className="flex items-center gap-1 text-[11px] font-semibold text-slate-500 hover:text-slate-700 transition"
+                              className="flex items-center gap-1 text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 transition"
                             >
                               <span>{isNotesOpen ? 'Hide Details' : 'View Details & Notes'}</span>
                               {isNotesOpen ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
                             </button>
 
                             {isNotesOpen && (
-                              <p className="text-xs text-slate-600 bg-slate-50 rounded-xl p-3 mt-2 leading-relaxed whitespace-pre-wrap border border-slate-200/70">
+                              <p className="text-xs text-slate-700 dark:text-slate-200 bg-indigo-50/50 dark:bg-[#121B35] rounded-xl p-3 mt-2 leading-relaxed whitespace-pre-wrap border border-indigo-100 dark:border-indigo-950/80">
                                 {item.notes}
                               </p>
                             )}
@@ -560,7 +560,7 @@ export default function Itinerary({ tripId, trip }) {
               </div>
             </div>
 
-            <hr className="border-slate-100" />
+            <hr className="border-indigo-100/70 dark:border-indigo-950" />
 
             {/* Today's Locations Mini Map */}
             <div className="space-y-2.5">
@@ -574,7 +574,7 @@ export default function Itinerary({ tripId, trip }) {
               </div>
 
               {/* Mini Map Iframe */}
-              <div className="relative w-full h-36 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 shadow-2xs">
+              <div className="relative w-full h-36 rounded-xl overflow-hidden border border-indigo-100 dark:border-indigo-900 bg-indigo-50/30 shadow-2xs">
                 <iframe
                   title="Today's Locations Mini Map"
                   className="w-full h-full border-0"
@@ -596,7 +596,7 @@ export default function Itinerary({ tripId, trip }) {
                         key={item.id}
                         className="text-xs text-slate-600 flex items-center gap-1.5 truncate"
                       >
-                        <span className="w-4 h-4 rounded-full bg-slate-100 text-slate-500 text-[10px] font-bold flex items-center justify-center shrink-0">
+                        <span className="w-4 h-4 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold flex items-center justify-center shrink-0">
                           {idx + 1}
                         </span>
                         <span className="truncate">{item.location}</span>
@@ -606,27 +606,27 @@ export default function Itinerary({ tripId, trip }) {
               )}
             </div>
 
-            <hr className="border-slate-100" />
+            <hr className="border-indigo-100/70 dark:border-indigo-950" />
 
             {/* Weather & Activity Count */}
             <div className="grid grid-cols-2 gap-2 pt-1">
-              <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
-                <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+              <div className="bg-amber-50/60 dark:bg-amber-950/40 p-3 rounded-xl border border-amber-200/60 dark:border-amber-900/60">
+                <div className="flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-300 font-semibold">
                   <span>{weather.icon}</span> Weather
                 </div>
                 <p className="text-base font-bold text-slate-800 mt-1">{weather.temp}</p>
-                <p className="text-[10px] text-slate-500 truncate">{weather.condition}</p>
+                <p className="text-[10px] text-amber-600/90 dark:text-amber-400 truncate">{weather.condition}</p>
               </div>
 
-              <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
-                <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+              <div className="bg-indigo-50/60 dark:bg-indigo-950/40 p-3 rounded-xl border border-indigo-200/60 dark:border-indigo-900/60">
+                <div className="flex items-center gap-1.5 text-xs text-indigo-700 dark:text-indigo-300 font-semibold">
                   <span>🎯</span> Planned
                 </div>
                 <p className="text-base font-bold text-slate-800 mt-1">
                   {currentDayItems.length}{' '}
-                  <span className="text-xs font-normal text-slate-500">today</span>
+                  <span className="text-xs font-normal text-indigo-600 dark:text-indigo-400">today</span>
                 </p>
-                <p className="text-[10px] text-slate-500 truncate">
+                <p className="text-[10px] text-indigo-600/80 dark:text-indigo-400 truncate">
                   {items.length} total in trip
                 </p>
               </div>

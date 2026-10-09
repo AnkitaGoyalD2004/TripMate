@@ -17,6 +17,7 @@ import {
   Clock,
   ExternalLink,
 } from 'lucide-react'
+import ThemeToggle from '../ThemeToggle.jsx'
 
 // Destination cover styles
 function getDestinationTheme(title = '') {
@@ -133,19 +134,20 @@ export default function Dashboard({
             />
             <div>
               <span className="text-xl font-bold tracking-tight text-slate-900">TripMate</span>
-              <span className="hidden sm:inline-block text-[11px] text-slate-400 font-medium ml-2 border-l border-slate-200 pl-2">
+              <span className="hidden sm:inline-block text-[11px] text-indigo-600 dark:text-indigo-400 font-semibold ml-2 border-l border-indigo-200 dark:border-indigo-900 pl-2">
                 Group Travel Workspace
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <span className="text-xs sm:text-sm font-medium text-slate-600">
               Hi, <strong className="text-slate-900">{currentUser.name}</strong> 👋
             </span>
+            <ThemeToggle />
             <button
               onClick={onLogout}
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 text-slate-600 hover:text-slate-900 rounded-xl text-xs sm:text-sm hover:bg-slate-100 transition"
+              className="flex items-center gap-1.5 px-3 py-1.5 border border-rose-200 dark:border-rose-900/60 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl text-xs sm:text-sm font-semibold transition"
             >
               <LogOut size={15} /> Log Out
             </button>
@@ -209,13 +211,13 @@ export default function Dashboard({
             {/* Search Input */}
             {trips.length > 0 && (
               <div className="relative w-full sm:w-64">
-                <Search size={15} className="absolute left-3 top-2.5 text-slate-400" />
+                <Search size={15} className="absolute left-3 top-2.5 text-indigo-500" />
                 <input
                   type="text"
                   placeholder="Search trips or code..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full pl-9 pr-3 py-1.5 bg-white border border-indigo-100/80 dark:border-slate-800 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 />
               </div>
             )}

@@ -216,13 +216,13 @@ export default function Expenses({ tripId, members }) {
             {debts.map((debt, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-3.5 bg-slate-50 border border-slate-200 rounded-lg"
+                className="flex items-center justify-between p-3.5 bg-indigo-50/50 dark:bg-[#101935] border border-indigo-100 dark:border-indigo-950/80 rounded-xl"
               >
                 <div className="flex items-center gap-2 text-sm font-medium">
-                  <span className="text-slate-800 font-semibold">{getMemberName(debt.fromId)}</span>
-                  <ArrowRight size={14} className="text-slate-400" />
-                  <span className="text-slate-800 font-semibold">{getMemberName(debt.toId)}</span>
-                  <span className="text-indigo-600 font-bold ml-1">₹{debt.amount}</span>
+                  <span className="text-slate-800 dark:text-white font-semibold">{getMemberName(debt.fromId)}</span>
+                  <ArrowRight size={14} className="text-indigo-400 dark:text-indigo-500" />
+                  <span className="text-slate-800 dark:text-white font-semibold">{getMemberName(debt.toId)}</span>
+                  <span className="text-indigo-600 dark:text-indigo-400 font-bold ml-1">₹{debt.amount}</span>
                 </div>
 
                 <button
@@ -270,7 +270,7 @@ export default function Expenses({ tripId, members }) {
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="font-semibold text-slate-800">{exp.title}</span>
-                    <span className="text-xs px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md font-medium border border-slate-200">
+                    <span className="text-xs px-2 py-0.5 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 rounded-md font-medium border border-indigo-100 dark:border-indigo-900/50">
                       {exp.category === 'Stay' && '🏨 Stay'}
                       {exp.category === 'Food' && '🍽️ Food'}
                       {exp.category === 'Travel' && '🚕 Travel'}
@@ -281,7 +281,7 @@ export default function Expenses({ tripId, members }) {
                     {exp.receiptImage && (
                       <button
                         onClick={() => setViewReceipt(exp.receiptImage)}
-                        className="text-xs flex items-center gap-1 px-2 py-0.5 bg-slate-100 hover:bg-slate-200 rounded text-slate-600 border"
+                        className="text-xs flex items-center gap-1 px-2 py-0.5 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 rounded text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-900/50"
                       >
                         <ImageIcon size={12} /> View Bill
                       </button>

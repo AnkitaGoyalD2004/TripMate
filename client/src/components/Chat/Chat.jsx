@@ -190,22 +190,22 @@ export default function Chat({ tripId, currentUser }) {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs flex flex-col h-[650px]">
+    <div className="bg-white dark:bg-[#0D1426] rounded-2xl border border-indigo-100 dark:border-indigo-950/70 overflow-hidden shadow-xs flex flex-col h-[650px]">
       {/* 1. Header with WebSocket Live Status */}
-      <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
+      <div className="px-6 py-4 border-b border-indigo-100 dark:border-indigo-950/80 flex items-center justify-between bg-indigo-50/50 dark:bg-[#0B1124]">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-indigo-50 text-indigo-600 rounded-xl">
+          <div className="p-2 bg-indigo-100/70 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 rounded-xl">
             <MessageSquare size={18} />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="font-bold text-slate-800 text-sm">Trip Discussion Wall</h3>
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm">Trip Discussion Wall</h3>
               {/* Live WebSocket Status Badge */}
               <span
                 className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-semibold ${
                   isConnected
-                    ? 'bg-emerald-100 text-emerald-800'
-                    : 'bg-amber-100 text-amber-800'
+                    ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 dark:border dark:border-emerald-800/40'
+                    : 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 dark:border dark:border-amber-800/40'
                 }`}
                 title={isConnected ? 'Connected via WebSockets' : 'Connecting to WebSockets...'}
               >
@@ -225,7 +225,7 @@ export default function Chat({ tripId, currentUser }) {
               {/* Redis Live Squad Presence Badge */}
               {onlineMembers.length > 0 && (
                 <span
-                  className="inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 rounded-full font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-2xs"
+                  className="inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 rounded-full font-semibold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60 shadow-2xs"
                   title={`Active now: ${onlineMembers.map((m) => m.userName).join(', ')}`}
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping" />
@@ -235,7 +235,7 @@ export default function Chat({ tripId, currentUser }) {
                 </span>
               )}
             </div>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-indigo-900/70 dark:text-indigo-200/80">
               Instant real-time chat & suggestions with trip companions
             </p>
           </div>
@@ -243,7 +243,7 @@ export default function Chat({ tripId, currentUser }) {
 
         <button
           onClick={loadMessages}
-          className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition"
+          className="text-indigo-600 dark:text-indigo-300 hover:text-indigo-800 dark:hover:text-white p-1.5 rounded-lg hover:bg-indigo-100/60 dark:hover:bg-indigo-950/60 transition"
           title="Reload History"
         >
           <RefreshCw size={14} />
@@ -251,14 +251,14 @@ export default function Chat({ tripId, currentUser }) {
       </div>
 
       {/* 2. Message History Feed */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/30">
+      <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-indigo-50/20 dark:bg-[#070A13]">
         {loading ? (
-          <div className="text-center py-12 text-slate-400 text-xs">Loading messages...</div>
+          <div className="text-center py-12 text-indigo-500 dark:text-indigo-300 text-xs">Loading messages...</div>
         ) : messages.length === 0 ? (
-          <div className="text-center py-16 max-w-sm mx-auto text-slate-400">
-            <MessageSquare size={36} className="mx-auto mb-2 text-slate-300" />
-            <p className="font-semibold text-slate-600 text-sm">No messages yet!</p>
-            <p className="text-xs text-slate-400 mt-1">
+          <div className="text-center py-16 max-w-sm mx-auto text-indigo-400 dark:text-indigo-300">
+            <MessageSquare size={36} className="mx-auto mb-2 text-indigo-300 dark:text-indigo-500" />
+            <p className="font-semibold text-slate-800 dark:text-slate-200 text-sm">No messages yet!</p>
+            <p className="text-xs text-indigo-900/70 dark:text-indigo-300/80 mt-1">
               Start the discussion! Share a hotel link, food recommendation, or trip idea with the group.
             </p>
           </div>
@@ -272,18 +272,18 @@ export default function Chat({ tripId, currentUser }) {
                 className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}
               >
                 <div className="flex items-center gap-2 mb-1 px-1">
-                  <span className="text-xs font-semibold text-slate-600">
+                  <span className="text-xs font-semibold text-slate-700 dark:text-indigo-200">
                     {isMe ? 'You' : msg.senderName}
                   </span>
-                  <span className="text-[10px] text-slate-400">{msg.time}</span>
+                  <span className="text-[10px] text-indigo-500/70 dark:text-indigo-400/80">{msg.time}</span>
                   {getTagBadge(msg.tag)}
                 </div>
 
                 <div
                   className={`max-w-md px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                     isMe
-                      ? 'bg-indigo-600 text-white rounded-br-xs shadow-xs'
-                      : 'bg-white border border-slate-200 text-slate-800 rounded-bl-xs shadow-xs'
+                      ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white rounded-br-xs shadow-md'
+                      : 'bg-white dark:bg-[#121B35] border border-indigo-100 dark:border-indigo-900/60 text-slate-900 dark:text-slate-100 rounded-bl-xs shadow-xs'
                   }`}
                 >
                   <p className="whitespace-pre-wrap break-words">{msg.message}</p>
@@ -295,7 +295,7 @@ export default function Chat({ tripId, currentUser }) {
 
         {/* Real-time typing bubble */}
         {typingUser && (
-          <div className="flex items-center gap-2 text-xs text-slate-500 italic bg-white px-3 py-1.5 rounded-full border border-slate-200 w-fit shadow-2xs">
+          <div className="flex items-center gap-2 text-xs text-indigo-700 dark:text-indigo-300 italic bg-white dark:bg-[#121B35] px-3 py-1.5 rounded-full border border-indigo-200 dark:border-indigo-900/60 w-fit shadow-2xs">
             <span className="flex gap-1 items-center">
               <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" />
               <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce delay-100" />
@@ -309,10 +309,10 @@ export default function Chat({ tripId, currentUser }) {
       </div>
 
       {/* 3. Input & Tag Selector Bar */}
-      <form onSubmit={handleSendMessage} className="p-4 border-t border-slate-200 bg-white space-y-3">
+      <form onSubmit={handleSendMessage} className="p-4 border-t border-indigo-100 dark:border-indigo-950/80 bg-white dark:bg-[#0D1426] space-y-3">
         {/* Quick Tag Selector */}
         <div className="flex items-center gap-2 overflow-x-auto text-xs">
-          <span className="text-slate-400 font-medium text-[11px]">Tag:</span>
+          <span className="text-indigo-600 dark:text-indigo-400 font-semibold text-[11px]">Tag:</span>
           {[
             { key: 'General', label: '💬 General' },
             { key: 'Idea', label: '💡 Idea' },
@@ -325,8 +325,8 @@ export default function Chat({ tripId, currentUser }) {
               onClick={() => setSelectedTag(t.key)}
               className={`px-2.5 py-1 rounded-full text-xs font-medium transition whitespace-nowrap ${
                 selectedTag === t.key
-                  ? 'bg-indigo-50 text-indigo-600 font-bold border border-indigo-200'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-indigo-600 text-white font-bold shadow-xs'
+                  : 'bg-indigo-50 dark:bg-[#141E38] text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-[#1C294D] border border-indigo-200/60 dark:border-indigo-900/40'
               }`}
             >
               {t.label}
@@ -341,7 +341,7 @@ export default function Chat({ tripId, currentUser }) {
             placeholder="Type a message or share an idea with friends..."
             value={inputMessage}
             onChange={handleInputChange}
-            className="flex-1 px-4 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="flex-1 px-4 py-2.5 border border-indigo-200 dark:border-indigo-900/60 bg-white dark:bg-[#101932] text-slate-900 dark:text-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-indigo-400/60 dark:placeholder:text-indigo-400/50"
           />
           <button
             type="submit"

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { UserPlus } from 'lucide-react'
 import { api } from '../../services/api.js'
+import ThemeToggle from '../ThemeToggle.jsx'
 
 export default function Signup({ onSignup, onSwitchToLogin }) {
   const [name, setName] = useState('')
@@ -27,7 +28,10 @@ export default function Signup({ onSignup, onSwitchToLogin }) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 relative">
+      <div className="absolute top-6 right-6">
+        <ThemeToggle />
+      </div>
       <div className="bg-white max-w-md w-full p-8 rounded-2xl shadow-sm border border-slate-200">
         <div className="text-center mb-6">
           <img src="/logo.svg?v=3" alt="TripMate" className="w-14 h-14 mx-auto rounded-2xl shadow-sm mb-3" />

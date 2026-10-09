@@ -366,12 +366,12 @@ export default function Maps({ tripId, tripTitle }) {
 
         {/* Right Column: Live Map Preview (5 Cols) */}
         <div className="lg:col-span-5 sticky top-24 space-y-3">
-          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+          <div className="bg-white dark:bg-[#0D1426] rounded-2xl border border-indigo-100 dark:border-indigo-950/80 overflow-hidden shadow-xs">
             {/* Map Header */}
-            <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50/70">
+            <div className="px-4 py-3 border-b border-indigo-100 dark:border-indigo-950/80 flex items-center justify-between bg-indigo-50/50 dark:bg-[#0B1124]">
               <div className="flex items-center gap-2">
-                <Layers size={16} className="text-indigo-600" />
-                <span className="text-xs font-bold text-slate-700">
+                <Layers size={16} className="text-indigo-600 dark:text-indigo-400" />
+                <span className="text-xs font-bold text-slate-800 dark:text-white">
                   {selectedLocation ? selectedLocation.name : tripTitle || 'Trip Location'}
                 </span>
               </div>

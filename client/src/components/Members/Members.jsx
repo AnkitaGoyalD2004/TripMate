@@ -409,7 +409,7 @@ export default function Members({
                           <select
                             value={member.role || 'Member'}
                             onChange={(e) => handleRoleChange(member.id, e.target.value)}
-                            className="text-[11px] font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-lg border-0 focus:ring-1 focus:ring-indigo-500 cursor-pointer"
+                            className="text-[11px] font-semibold text-indigo-700 dark:text-indigo-200 bg-indigo-50 dark:bg-[#141E38] hover:bg-indigo-100 dark:hover:bg-[#1C294D] border border-indigo-200/80 dark:border-indigo-900/60 px-2 py-0.5 rounded-lg focus:ring-1 focus:ring-indigo-500 cursor-pointer"
                           >
                             {SQUAD_ROLES.filter((r) => r.key !== 'Admin').map((r) => (
                               <option key={r.key} value={r.key}>
@@ -426,7 +426,7 @@ export default function Members({
                   {member.role !== 'Admin' && (
                     <button
                       onClick={() => handleRemoveMember(member.id, member.name)}
-                      className="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition"
+                      className="p-1.5 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition"
                       title="Remove from Trip"
                     >
                       <Trash2 size={15} />
@@ -435,40 +435,40 @@ export default function Members({
                 </div>
 
                 {/* Middle Row: Contribution Cards */}
-                <div className="grid grid-cols-3 gap-2 bg-slate-50/80 p-2.5 rounded-xl border border-slate-100 text-xs">
+                <div className="grid grid-cols-3 gap-2 bg-indigo-50/60 dark:bg-[#101935] p-3 rounded-xl border border-indigo-100 dark:border-indigo-950 text-xs">
                   <div>
-                    <span className="text-[10px] text-slate-400 font-medium block">Total Paid</span>
-                    <strong className="text-slate-800 font-semibold">
+                    <span className="text-[10px] text-indigo-900/70 dark:text-indigo-300 font-semibold uppercase tracking-wider block">Total Paid</span>
+                    <strong className="text-slate-900 dark:text-white font-bold text-sm">
                       ₹{stats.paid.toLocaleString('en-IN')}
                     </strong>
                   </div>
 
                   <div>
-                    <span className="text-[10px] text-slate-400 font-medium block">Fair Share</span>
-                    <strong className="text-slate-600 font-semibold">
+                    <span className="text-[10px] text-indigo-900/70 dark:text-indigo-300 font-semibold uppercase tracking-wider block">Fair Share</span>
+                    <strong className="text-slate-700 dark:text-slate-200 font-bold text-sm">
                       ₹{Math.round(stats.share).toLocaleString('en-IN')}
                     </strong>
                   </div>
 
                   <div>
-                    <span className="text-[10px] text-slate-400 font-medium block">Balance</span>
+                    <span className="text-[10px] text-indigo-900/70 dark:text-indigo-300 font-semibold uppercase tracking-wider block">Balance</span>
                     {balance > 10 ? (
-                      <span className="text-emerald-600 font-bold text-[11px]">
+                      <span className="text-emerald-600 dark:text-emerald-400 font-bold text-sm">
                         +₹{balance.toLocaleString('en-IN')}
                       </span>
                     ) : balance < -10 ? (
-                      <span className="text-amber-600 font-bold text-[11px]">
+                      <span className="text-rose-600 dark:text-rose-400 font-bold text-sm">
                         -₹{Math.abs(balance).toLocaleString('en-IN')}
                       </span>
                     ) : (
-                      <span className="text-slate-400 font-medium text-[11px]">Settled</span>
+                      <span className="text-indigo-600 dark:text-indigo-300 font-semibold text-xs">Settled</span>
                     )}
                   </div>
                 </div>
 
                 {/* Bottom Row: Quick Contextual Actions */}
-                <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-xs">
-                  <span className="text-[11px] text-slate-400">
+                <div className="flex items-center justify-between pt-1 border-t border-slate-100 dark:border-indigo-950/60 text-xs">
+                  <span className="text-[11px] text-indigo-600/70 dark:text-indigo-300/80 font-medium">
                     {stats.activitiesCount > 0
                       ? `${stats.activitiesCount} activities tagged`
                       : 'All trip activities'}
@@ -479,17 +479,17 @@ export default function Members({
                       onClick={() => {
                         if (onNavigateToTab) onNavigateToTab('chat')
                       }}
-                      className="flex items-center gap-1 text-[11px] font-semibold text-indigo-600 hover:text-indigo-700 transition"
+                      className="flex items-center gap-1 text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 transition"
                     >
                       <MessageSquare size={12} />
                       Chat
                     </button>
-                    <span>·</span>
+                    <span className="text-indigo-300 dark:text-indigo-700">·</span>
                     <button
                       onClick={() => {
                         if (onNavigateToTab) onNavigateToTab('expenses')
                       }}
-                      className="flex items-center gap-1 text-[11px] font-semibold text-slate-600 hover:text-slate-800 transition"
+                      className="flex items-center gap-1 text-[11px] font-semibold text-slate-700 dark:text-slate-200 hover:text-indigo-600 transition"
                     >
                       <IndianRupee size={12} />
                       Expenses
