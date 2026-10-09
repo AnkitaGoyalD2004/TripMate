@@ -1,27 +1,41 @@
 import { pool } from '../db.js'
+import { getCached, setCached, delCached } from '../redis.js'
 
 // Get itinerary for a trip
 export async function getItinerary(req, res) {
+  const cacheKey = `trip:${req.params.id}:itinerary`
   try {
+    // 1. Check Redis Cache First
+    const cached = await getCached(cacheKey)
+    if (cached) {
+      res.set('X-Cache', 'HIT')
+      return res.json(cached)
+    }
+
+    // 2. Cache Miss: Query Database
     const result = await pool.query(
       'SELECT * FROM itinerary_items WHERE trip_id = $1 ORDER BY day_number, id ASC',
       [req.params.id]
     )
-    res.json(
-      result.rows.map((row) => ({
-        id: row.id.toString(),
-        day: row.day_number,
-        type: row.type || 'activity',
-        title: row.title,
-        time: row.time || '',
-        notes: row.notes || '',
-        location: row.location || '',
-        duration: row.duration || '',
-        price: parseFloat(row.price || 0),
-        icon: row.icon || '🎯',
-        participants: row.participants || 'All friends',
-      }))
-    )
+
+    const items = result.rows.map((row) => ({
+      id: row.id.toString(),
+      day: row.day_number,
+      type: row.type || 'activity',
+      title: row.title,
+      time: row.time || '',
+      notes: row.notes || '',
+      location: row.location || '',
+      duration: row.duration || '',
+      price: parseFloat(row.price || 0),
+      icon: row.icon || '🎯',
+      participants: row.participants || 'All friends',
+    }))
+
+    // 3. Save to Redis Cache (TTL: 180 seconds)
+    await setCached(cacheKey, items, 180)
+    res.set('X-Cache', 'MISS')
+    res.json(items)
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
@@ -49,6 +63,10 @@ export async function addItineraryItem(req, res) {
       ]
     )
     const row = result.rows[0]
+
+    // Invalidate Redis Cache
+    await delCached(`trip:${req.params.id}:itinerary`)
+
     res.json({
       id: row.id.toString(),
       day: row.day_number,
@@ -93,6 +111,10 @@ export async function updateItineraryItem(req, res) {
     )
     if (result.rows.length === 0) return res.status(404).json({ error: 'Item not found' })
     const row = result.rows[0]
+
+    // Invalidate Redis Cache
+    await delCached(`trip:${req.params.id}:itinerary`)
+
     res.json({
       id: row.id.toString(),
       day: row.day_number,
@@ -115,6 +137,10 @@ export async function updateItineraryItem(req, res) {
 export async function deleteItineraryItem(req, res) {
   try {
     await pool.query('DELETE FROM itinerary_items WHERE id = $1', [req.params.itemId])
+
+    // Invalidate Redis Cache
+    await delCached(`trip:${req.params.id}:itinerary`)
+
     res.json({ success: true })
   } catch (err) {
     res.status(500).json({ error: err.message })

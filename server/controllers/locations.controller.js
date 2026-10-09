@@ -1,8 +1,18 @@
 import { pool } from '../db.js'
+import { getCached, setCached, delCached } from '../redis.js'
 
 // Get all saved locations for a trip
 export async function getLocations(req, res) {
+  const cacheKey = `trip:${req.params.id}:locations`
   try {
+    // 1. Check Redis Cache First
+    const cached = await getCached(cacheKey)
+    if (cached) {
+      res.set('X-Cache', 'HIT')
+      return res.json(cached)
+    }
+
+    // 2. Cache Miss: Query Database
     const result = await pool.query(
       `SELECT id, trip_id, name, category, address, notes, is_visited, created_at
        FROM trip_locations
@@ -10,17 +20,21 @@ export async function getLocations(req, res) {
        ORDER BY created_at ASC`,
       [req.params.id]
     )
-    res.json(
-      result.rows.map((row) => ({
-        id: row.id.toString(),
-        tripId: row.trip_id.toString(),
-        name: row.name,
-        category: row.category || 'Sightseeing',
-        address: row.address || '',
-        notes: row.notes || '',
-        isVisited: !!row.is_visited,
-      }))
-    )
+
+    const locations = result.rows.map((row) => ({
+      id: row.id.toString(),
+      tripId: row.trip_id.toString(),
+      name: row.name,
+      category: row.category || 'Sightseeing',
+      address: row.address || '',
+      notes: row.notes || '',
+      isVisited: !!row.is_visited,
+    }))
+
+    // 3. Save to Redis Cache (TTL: 180s)
+    await setCached(cacheKey, locations, 180)
+    res.set('X-Cache', 'MISS')
+    res.json(locations)
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
@@ -38,6 +52,10 @@ export async function addLocation(req, res) {
       [req.params.id, name.trim(), category || 'Sightseeing', address || '', notes || '']
     )
     const row = result.rows[0]
+
+    // Invalidate Redis Cache
+    await delCached(`trip:${req.params.id}:locations`)
+
     res.json({
       id: row.id.toString(),
       tripId: row.trip_id.toString(),
@@ -62,6 +80,10 @@ export async function toggleLocationVisited(req, res) {
     )
     if (result.rows.length === 0) return res.status(404).json({ error: 'Location not found' })
     const row = result.rows[0]
+
+    // Invalidate Redis Cache
+    await delCached(`trip:${req.params.id}:locations`)
+
     res.json({
       id: row.id.toString(),
       tripId: row.trip_id.toString(),
@@ -83,6 +105,10 @@ export async function deleteLocation(req, res) {
       req.params.locId,
       req.params.id,
     ])
+
+    // Invalidate Redis Cache
+    await delCached(`trip:${req.params.id}:locations`)
+
     res.json({ success: true })
   } catch (err) {
     res.status(500).json({ error: err.message })

@@ -20,6 +20,7 @@ export default function Chat({ tripId, currentUser }) {
   const [sending, setSending] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
   const [typingUser, setTypingUser] = useState(null)
+  const [onlineMembers, setOnlineMembers] = useState([])
 
   const socketRef = useRef(null)
   const messagesEndRef = useRef(null)
@@ -41,11 +42,22 @@ export default function Chat({ tripId, currentUser }) {
 
     socket.on('connect', () => {
       setIsConnected(true)
-      socket.emit('join_trip', tripId)
+      // Send user info for Redis squad presence tracking
+      socket.emit('join_trip', {
+        tripId,
+        userId: currentUser?.id,
+        userName: currentUser?.name || 'Member',
+      })
     })
 
     socket.on('disconnect', () => {
       setIsConnected(false)
+      setOnlineMembers([])
+    })
+
+    // Listen for live squad presence updates from Redis
+    socket.on('squad_presence', (members) => {
+      setOnlineMembers(members || [])
     })
 
     // Listen for live messages received from any squad member
@@ -68,10 +80,14 @@ export default function Chat({ tripId, currentUser }) {
 
     // Cleanup on unmount or trip change
     return () => {
-      socket.emit('leave_trip', tripId)
+      socket.emit('leave_trip', {
+        tripId,
+        userId: currentUser?.id,
+        userName: currentUser?.name || 'Member',
+      })
       socket.disconnect()
     }
-  }, [tripId])
+  }, [tripId, currentUser])
 
   // Auto-scroll to bottom on new messages
   useEffect(() => {
@@ -205,6 +221,19 @@ export default function Chat({ tripId, currentUser }) {
                   </>
                 )}
               </span>
+
+              {/* Redis Live Squad Presence Badge */}
+              {onlineMembers.length > 0 && (
+                <span
+                  className="inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 rounded-full font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-2xs"
+                  title={`Active now: ${onlineMembers.map((m) => m.userName).join(', ')}`}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping" />
+                  <span>
+                    {onlineMembers.length} online
+                  </span>
+                </span>
+              )}
             </div>
             <p className="text-xs text-slate-500">
               Instant real-time chat & suggestions with trip companions

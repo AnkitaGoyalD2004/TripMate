@@ -1,4 +1,5 @@
 import { pool } from '../db.js'
+import { getCached, setCached, invalidatePattern } from '../redis.js'
 
 // Get all trips for a user
 export async function getTrips(req, res) {
@@ -8,7 +9,17 @@ export async function getTrips(req, res) {
     return res.json([])
   }
 
+  const cacheKey = `user:${userIdNum}:trips`
+
   try {
+    // 1. Check Redis Cache First
+    const cached = await getCached(cacheKey)
+    if (cached) {
+      res.set('X-Cache', 'HIT')
+      return res.json(cached)
+    }
+
+    // 2. Cache Miss: Query Database
     const tripsResult = await pool.query(
       `SELECT t.* FROM trips t
        JOIN trip_members tm ON t.id = tm.trip_id
@@ -39,6 +50,9 @@ export async function getTrips(req, res) {
       })
     }
 
+    // 3. Save to Redis Cache (TTL: 60s)
+    await setCached(cacheKey, trips, 60)
+    res.set('X-Cache', 'MISS')
     res.json(trips)
   } catch (err) {
     res.status(500).json({ error: err.message })
@@ -66,6 +80,9 @@ export async function createTrip(req, res) {
     const userResult = await pool.query('SELECT name FROM users WHERE id = $1', [userId])
     const userName = userResult.rows[0]?.name || 'You'
 
+    // Invalidate trips cache
+    await invalidatePattern('user:*:trips')
+
     res.json({
       id: trip.id.toString(),
       title: trip.title,
@@ -84,6 +101,7 @@ export async function updateBudget(req, res) {
   const { budget } = req.body
   try {
     await pool.query('UPDATE trips SET budget = $1 WHERE id = $2', [budget, req.params.id])
+    await invalidatePattern('user:*:trips')
     res.json({ success: true, budget: parseFloat(budget) })
   } catch (err) {
     res.status(500).json({ error: err.message })
@@ -116,6 +134,7 @@ export async function joinTrip(req, res) {
       ])
     }
 
+    await invalidatePattern('user:*:trips')
     res.json({ success: true, tripId: trip.id.toString() })
   } catch (err) {
     res.status(500).json({ error: err.message })
@@ -126,6 +145,7 @@ export async function joinTrip(req, res) {
 export async function deleteTrip(req, res) {
   try {
     await pool.query('DELETE FROM trips WHERE id = $1', [req.params.id])
+    await invalidatePattern('user:*:trips')
     res.json({ success: true })
   } catch (err) {
     res.status(500).json({ error: err.message })
@@ -154,6 +174,7 @@ export async function addMember(req, res) {
       [req.params.id, memberId, 'Member']
     )
 
+    await invalidatePattern('user:*:trips')
     res.json({ id: memberId.toString(), name: name.trim(), role: 'Member' })
   } catch (err) {
     res.status(500).json({ error: err.message })
@@ -167,6 +188,7 @@ export async function removeMember(req, res) {
       req.params.id,
       req.params.userId,
     ])
+    await invalidatePattern('user:*:trips')
     res.json({ success: true })
   } catch (err) {
     res.status(500).json({ error: err.message })
@@ -181,6 +203,7 @@ export async function updateMemberRole(req, res) {
       'UPDATE trip_members SET role = $1 WHERE trip_id = $2 AND user_id = $3',
       [role, req.params.id, req.params.userId]
     )
+    await invalidatePattern('user:*:trips')
     res.json({ success: true, role })
   } catch (err) {
     res.status(500).json({ error: err.message })

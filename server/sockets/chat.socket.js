@@ -1,18 +1,70 @@
 import { pool } from '../db.js'
+import { redisClient } from '../redis.js'
 
 export function setupChatSockets(io) {
   io.on('connection', (socket) => {
-    // Join a trip chat room
-    socket.on('join_trip', (tripId) => {
+    // 1. Join a trip chat room & track live squad presence in Redis
+    socket.on('join_trip', async (payload) => {
+      const tripId = typeof payload === 'object' ? payload.tripId : payload
+      const userId = typeof payload === 'object' ? payload.userId : null
+      const userName = typeof payload === 'object' ? payload.userName : null
+
       socket.join(`trip_${tripId}`)
+      socket.data = { tripId, userId, userName }
+
+      if (userId && userName && redisClient.status === 'ready') {
+        try {
+          const memberKey = JSON.stringify({ userId: userId.toString(), userName })
+          await redisClient.sadd(`trip:${tripId}:online_users`, memberKey)
+          await redisClient.expire(`trip:${tripId}:online_users`, 86400)
+
+          const membersRaw = await redisClient.smembers(`trip:${tripId}:online_users`)
+          const onlineMembers = membersRaw.map((m) => JSON.parse(m))
+          io.to(`trip_${tripId}`).emit('squad_presence', onlineMembers)
+        } catch (err) {
+          console.warn('Redis presence join error:', err.message)
+        }
+      }
     })
 
-    // Leave a trip chat room
-    socket.on('leave_trip', (tripId) => {
+    // 2. Leave a trip chat room
+    socket.on('leave_trip', async (payload) => {
+      const tripId = typeof payload === 'object' ? payload.tripId : payload
       socket.leave(`trip_${tripId}`)
+
+      if (socket.data?.userId && redisClient.status === 'ready') {
+        try {
+          const memberKey = JSON.stringify({
+            userId: socket.data.userId.toString(),
+            userName: socket.data.userName,
+          })
+          await redisClient.srem(`trip:${tripId}:online_users`, memberKey)
+          const membersRaw = await redisClient.smembers(`trip:${tripId}:online_users`)
+          const onlineMembers = membersRaw.map((m) => JSON.parse(m))
+          io.to(`trip_${tripId}`).emit('squad_presence', onlineMembers)
+        } catch (err) {
+          console.warn('Redis presence leave error:', err.message)
+        }
+      }
     })
 
-    // Real-time typing indicators
+    // 3. Auto-cleanup on client disconnect
+    socket.on('disconnect', async () => {
+      const { tripId, userId, userName } = socket.data || {}
+      if (tripId && userId && redisClient.status === 'ready') {
+        try {
+          const memberKey = JSON.stringify({ userId: userId.toString(), userName })
+          await redisClient.srem(`trip:${tripId}:online_users`, memberKey)
+          const membersRaw = await redisClient.smembers(`trip:${tripId}:online_users`)
+          const onlineMembers = membersRaw.map((m) => JSON.parse(m))
+          io.to(`trip_${tripId}`).emit('squad_presence', onlineMembers)
+        } catch (err) {
+          console.warn('Redis presence disconnect error:', err.message)
+        }
+      }
+    })
+
+    // 4. Real-time typing indicators
     socket.on('typing', ({ tripId, userName }) => {
       socket.to(`trip_${tripId}`).emit('user_typing', userName)
     })
@@ -21,7 +73,7 @@ export function setupChatSockets(io) {
       socket.to(`trip_${tripId}`).emit('user_stop_typing')
     })
 
-    // Send message directly over WebSocket
+    // 5. Send message directly over WebSocket
     socket.on('send_message', async ({ tripId, userId, message, tag }) => {
       if (!message || !message.trim()) return
       try {
