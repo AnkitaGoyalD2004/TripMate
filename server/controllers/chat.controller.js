@@ -19,6 +19,7 @@ export async function getMessages(req, res) {
         senderName: row.sender_name,
         message: row.message,
         tag: row.tag,
+        createdAt: row.created_at,
         time: new Date(row.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       }))
     )
@@ -48,6 +49,7 @@ export async function sendMessage(req, res) {
       senderName,
       message: row.message,
       tag: row.tag,
+      createdAt: row.created_at,
       time: new Date(row.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     }
 

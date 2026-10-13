@@ -92,6 +92,7 @@ export function setupChatSockets(io) {
           senderName,
           message: row.message,
           tag: row.tag,
+          createdAt: row.created_at,
           time: new Date(row.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         }
         io.to(`trip_${tripId}`).emit('receive_message', newMsg)

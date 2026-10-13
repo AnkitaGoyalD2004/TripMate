@@ -104,8 +104,12 @@ const initDB = async () => {
         user_id INT REFERENCES users(id) ON DELETE CASCADE,
         message TEXT NOT NULL,
         tag VARCHAR(50) DEFAULT 'General',
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
       );
+
+      -- Ensure created_at is TIMESTAMPTZ for accurate timezone conversions
+      ALTER TABLE trip_messages ALTER COLUMN created_at TYPE TIMESTAMPTZ USING created_at AT TIME ZONE 'UTC';
+      ALTER TABLE trip_messages ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 
       CREATE TABLE IF NOT EXISTS trip_locations (
         id SERIAL PRIMARY KEY,

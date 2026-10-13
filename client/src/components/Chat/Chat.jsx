@@ -189,6 +189,19 @@ export default function Chat({ tripId, currentUser }) {
     }
   }
 
+  // Format timestamp in user's browser local timezone
+  const formatMessageTime = (msg) => {
+    if (msg?.createdAt) {
+      try {
+        const d = new Date(msg.createdAt)
+        if (!isNaN(d.getTime())) {
+          return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }
+      } catch (e) {}
+    }
+    return msg?.time || ''
+  }
+
   return (
     <div className="bg-white dark:bg-[#0D1426] rounded-2xl border border-indigo-100 dark:border-indigo-950/70 overflow-hidden shadow-xs flex flex-col h-[650px]">
       {/* 1. Header with WebSocket Live Status */}
@@ -275,7 +288,7 @@ export default function Chat({ tripId, currentUser }) {
                   <span className="text-xs font-semibold text-slate-700 dark:text-indigo-200">
                     {isMe ? 'You' : msg.senderName}
                   </span>
-                  <span className="text-[10px] text-indigo-500/70 dark:text-indigo-400/80">{msg.time}</span>
+                  <span className="text-[10px] text-indigo-500/70 dark:text-indigo-400/80">{formatMessageTime(msg)}</span>
                   {getTagBadge(msg.tag)}
                 </div>
 
