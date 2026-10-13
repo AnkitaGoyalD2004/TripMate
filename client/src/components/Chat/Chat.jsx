@@ -1,14 +1,12 @@
-import { useState, useEffect, useRef } from 'react'
 import {
-  Send,
-  MessageSquare,
+  AlertCircle,
   Lightbulb,
   MapPin,
-  AlertCircle,
+  MessageSquare,
   RefreshCw,
-  Wifi,
-  WifiOff,
+  Send
 } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { io } from 'socket.io-client'
 import { api } from '../../services/api.js'
 
@@ -214,27 +212,7 @@ export default function Chat({ tripId, currentUser }) {
             <div className="flex items-center gap-2">
               <h3 className="font-bold text-slate-900 dark:text-white text-sm">Trip Discussion Wall</h3>
               {/* Live WebSocket Status Badge */}
-              <span
-                className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-semibold ${
-                  isConnected
-                    ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 dark:border dark:border-emerald-800/40'
-                    : 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 dark:border dark:border-amber-800/40'
-                }`}
-                title={isConnected ? 'Connected via WebSockets' : 'Connecting to WebSockets...'}
-              >
-                {isConnected ? (
-                  <>
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>Live WebSocket</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                    <span>Connecting...</span>
-                  </>
-                )}
-              </span>
-
+            
               {/* Redis Live Squad Presence Badge */}
               {onlineMembers.length > 0 && (
                 <span

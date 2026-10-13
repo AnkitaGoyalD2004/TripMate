@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Plus, Trash2, Receipt, ArrowRight, CheckCircle2, Image as ImageIcon, X } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Image as ImageIcon, Plus, Receipt, Trash2, X } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { api } from '../../services/api.js'
 
 export default function Expenses({ tripId, members }) {
@@ -391,18 +391,6 @@ export default function Expenses({ tripId, members }) {
                     </label>
                   ))}
                 </div>
-              </div>
-
-              {/* Upload Bill */}
-              <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">Upload Bill / Receipt (Optional)</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileUpload}
-                  className="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100"
-                />
-                {receiptImage && <p className="text-xs text-emerald-600 mt-1">✓ Receipt attached</p>}
               </div>
 
               <div className="flex justify-end gap-2 pt-2">
