@@ -1,22 +1,17 @@
-import { useState } from 'react'
 import {
-  Compass,
-  Plus,
-  Trash2,
-  Users,
-  Calendar,
-  Copy,
-  Check,
   ArrowRight,
+  Calendar,
+  Check,
+  Copy,
   LogOut,
-  Sparkles,
   MapPin,
+  Plus,
   Search,
-  IndianRupee,
-  Share2,
-  Clock,
-  ExternalLink,
+  Sparkles,
+  Trash2,
+  Users
 } from 'lucide-react'
+import { useState } from 'react'
 import ThemeToggle from '../ThemeToggle.jsx'
 
 // Destination cover styles

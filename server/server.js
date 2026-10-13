@@ -1,9 +1,9 @@
+import { createAdapter } from '@socket.io/redis-adapter'
 import cors from 'cors'
 import 'dotenv/config'
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
-import { createAdapter } from '@socket.io/redis-adapter'
 import { initDB } from './db.js'
 import { pubClient, subClient } from './redis.js'
 
@@ -16,10 +16,14 @@ import locationsRoutes from './routes/locations.routes.js'
 import tripsRoutes from './routes/trips.routes.js'
 
 // WebSocket Setup
+
+
+
 import { setupChatSockets } from './sockets/chat.socket.js'
 
 const app = express()
-const PORT = process.env.PORT || 5001
+const PORT = process.env.PORT || 5001 
+
 
 const server = http.createServer(app)
 const io = new Server(server, {
@@ -52,5 +56,5 @@ app.use('/api/trips', chatRoutes)
 app.use('/api/trips', locationsRoutes)
 
 server.listen(PORT, () => {
-  console.log(`🚀 TripMate Backend (with Redis & WebSockets) running on http://localhost:${PORT}`)
+  console.log(`TripMate Backend (with Redis & WebSockets) running on http://localhost:${PORT}`)
 })
