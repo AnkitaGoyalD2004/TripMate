@@ -47,6 +47,15 @@ initDB()
 // Initialize WebSockets
 setupChatSockets(io)
 
+// Health check & status endpoints
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', service: 'TripMate Backend', timestamp: new Date().toISOString() })
+})
+
+app.get('/', (req, res) => {
+  res.send('🌴 TripMate API is live and healthy!')
+})
+
 // Mount API Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/trips', tripsRoutes)

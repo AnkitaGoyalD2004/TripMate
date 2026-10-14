@@ -32,7 +32,8 @@ export default function Chat({ tripId, currentUser }) {
     loadMessages()
 
     // Connect to WebSocket server
-    const socket = io('http://localhost:5001', {
+    const socketUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+    const socket = io(socketUrl, {
       transports: ['websocket', 'polling'],
     })
 

@@ -5,9 +5,11 @@ const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379'
 
 // Helper to create Redis connection with robust reconnect logic
 export function createClient(customOptions = {}) {
+  const isTls = REDIS_URL.startsWith('rediss://')
   const client = new Redis(REDIS_URL, {
     maxRetriesPerRequest: null,
     enableReadyCheck: true,
+    ...(isTls ? { tls: { rejectUnauthorized: false } } : {}),
     retryStrategy(times) {
       // Exponential backoff up to 3 seconds
       return Math.min(times * 100, 3000)
