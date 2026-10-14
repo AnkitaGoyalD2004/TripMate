@@ -1,0 +1,64 @@
+name: TripMate CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # ==========================================
+  # 1. FRONTEND CI (React + Vite + Tailwind v4)
+  # ==========================================
+  client-checks:
+    name: Frontend (Lint & Build)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: 'client/package-lock.json'
+
+      - name: Install Frontend Dependencies
+        working-directory: ./client
+        run: npm ci
+
+      - name: Run ESLint
+        working-directory: ./client
+        run: npm run lint
+
+      - name: Build Frontend for Production
+        working-directory: ./client
+        run: npm run build
+
+  # ==========================================
+  # 2. BACKEND CI (Express + WebSockets + Redis)
+  # ==========================================
+  server-checks:
+    name: Backend (Syntax & Integrity)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: 'server/package-lock.json'
+
+      - name: Install Backend Dependencies
+        working-directory: ./server
+        run: npm ci
+
+      - name: Run Backend Syntax & Integrity Checks
+        working-directory: ./server
+        run: npm test
