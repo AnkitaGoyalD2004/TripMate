@@ -30,40 +30,40 @@ TripMate employs a decoupled client-server architecture with an in-memory cachin
 
 ```mermaid
 flowchart TD
-    subgraph ClientLayer["🖥️ Frontend Client (React 19 + Vite 8)"]
+    subgraph ClientLayer["Frontend Client - React 19 and Vite 8"]
         UI["Modern UI / Responsive Dashboard"]
-        ThemeEng["Dual-Theme Engine (Light / Obsidian Midnight)"]
-        SocketClient["Socket.io Client (Real-time events)"]
-        APIClient["API Service Layer (Fetch / REST)"]
+        ThemeEng["Dual-Theme Engine - Light and Obsidian Midnight"]
+        SocketClient["Socket.io Client - Real-time events"]
+        APIClient["API Service Layer - Fetch and REST"]
     end
 
-    subgraph CDNLayer["🌐 Edge & Delivery"]
-        Vercel["Vercel Global Edge Network (CDN)"]
+    subgraph CDNLayer["Edge and Delivery"]
+        Vercel["Vercel Global Edge Network - CDN"]
     end
 
-    subgraph BackendLayer["⚙️ Backend Server (Express 5 + Node.js 22)"]
-        Routes["Modular MVC Routes & Controllers"]
+    subgraph BackendLayer["Backend Server - Express 5 and Node.js 22"]
+        Routes["Modular MVC Routes and Controllers"]
         SocketServer["Socket.io WebSocket Server"]
-        AuthModule["Identity & Session Management"]
+        AuthModule["Identity and Session Management"]
     end
 
-    subgraph CacheLayer["⚡ In-Memory Cache & Presence (Redis)"]
-        RedisCache["Query Cache (TTL Invalidation)"]
-        RedisPresence["Ephemeral Squad Presence (SETEX)"]
-        RedisAdapter["Socket.io Redis Pub/Sub Adapter"]
+    subgraph CacheLayer["In-Memory Cache and Presence - Redis"]
+        RedisCache["Query Cache with TTL Invalidation"]
+        RedisPresence["Ephemeral Squad Presence Tracker"]
+        RedisAdapter["Socket.io Redis PubSub Adapter"]
     end
 
-    subgraph DBLayer["🗄️ Relational Database (Neon PostgreSQL)"]
-        NeonDB[("Serverless PostgreSQL\nTIMESTAMPTZ • ACID Transactions")]
+    subgraph DBLayer["Relational Database - Neon PostgreSQL"]
+        NeonDB[("Neon Serverless PostgreSQL")]
     end
 
-    ClientLayer -->|Static Assets| Vercel
-    APIClient -->|HTTP / REST JSON| Routes
-    SocketClient <==>|Bi-directional WebSockets| SocketServer
-    SocketServer <--> RedisAdapter
-    Routes <-->|Read / Invalidate Cache| RedisCache
-    SocketServer <-->|Track Online Members| RedisPresence
-    Routes <-->|SQL Connection Pool (pg.Pool)| NeonDB
+    ClientLayer -->|"Static Assets"| Vercel
+    APIClient -->|"HTTP / REST API"| Routes
+    SocketClient <==>|"Bi-directional WebSockets"| SocketServer
+    SocketServer <-->|"Horizontal Scaling"| RedisAdapter
+    Routes <-->|"Read / Invalidate Cache"| RedisCache
+    SocketServer <-->|"Track Online Members"| RedisPresence
+    Routes <-->|"SQL Connection Pool"| NeonDB
 ```
 
 ---
