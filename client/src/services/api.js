@@ -1,5 +1,9 @@
-const BACKEND_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
-const API_BASE = `${BACKEND_URL.replace(/\/+$/, '')}/api`
+const rawBackendUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+const isHttpsFrontend = typeof window !== 'undefined' && window.location.protocol === 'https:'
+// When page is on HTTPS and backend is HTTP, use relative /api proxy to prevent browser mixed content blocks
+const API_BASE = isHttpsFrontend && rawBackendUrl.startsWith('http://')
+  ? '/api'
+  : `${rawBackendUrl.replace(/\/+$/, '')}/api`
 
 export const api = {
   // Auth

@@ -48,7 +48,7 @@ initDB()
 setupChatSockets(io)
 
 // Health check & status endpoints
-app.get('/health', (req, res) => {
+app.get(['/health', '/api/health'], (req, res) => {
   res.json({ status: 'ok', service: 'TripMate Backend', timestamp: new Date().toISOString() })
 })
 

@@ -31,10 +31,12 @@ export default function Chat({ tripId, currentUser }) {
     // Load initial message history from database
     loadMessages()
 
-    // Connect to WebSocket server
-    const socketUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+    // Connect to WebSocket server (use relative proxy when frontend is on HTTPS)
+    const rawSocketUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+    const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:'
+    const socketUrl = isHttps && rawSocketUrl.startsWith('http://') ? undefined : rawSocketUrl
     const socket = io(socketUrl, {
-      transports: ['websocket', 'polling'],
+      transports: ['polling', 'websocket'],
     })
 
     socketRef.current = socket
