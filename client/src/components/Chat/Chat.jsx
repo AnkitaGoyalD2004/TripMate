@@ -32,9 +32,9 @@ export default function Chat({ tripId, currentUser }) {
     loadMessages()
 
     // Connect to WebSocket server (use relative proxy when frontend is on HTTPS)
-    const rawSocketUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+    const rawSocketUrl = (import.meta.env.VITE_API_URL || '').trim() || 'http://localhost:5001'
     const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:'
-    const socketUrl = isHttps && rawSocketUrl.startsWith('http://') ? undefined : rawSocketUrl
+    const socketUrl = isHttps ? undefined : rawSocketUrl
     const socket = io(socketUrl, {
       transports: ['polling', 'websocket'],
     })

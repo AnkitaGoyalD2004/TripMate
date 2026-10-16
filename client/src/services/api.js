@@ -1,7 +1,7 @@
-const rawBackendUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+const rawBackendUrl = (import.meta.env.VITE_API_URL || '').trim() || 'http://localhost:5001'
 const isHttpsFrontend = typeof window !== 'undefined' && window.location.protocol === 'https:'
-// When page is on HTTPS and backend is HTTP, use relative /api proxy to prevent browser mixed content blocks
-const API_BASE = isHttpsFrontend && rawBackendUrl.startsWith('http://')
+// On HTTPS (Vercel production), ALWAYS route through relative /api proxy to prevent browser mixed content blocks
+const API_BASE = isHttpsFrontend
   ? '/api'
   : `${rawBackendUrl.replace(/\/+$/, '')}/api`
 
